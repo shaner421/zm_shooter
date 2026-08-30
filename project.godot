@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="zm_shooters"
+config/name="zm_shooter"
 run/main_scene="uid://ts5oryt4k2yg"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 MenuManager="*uid://bct8huw53hjpy"
 SteamManager="*uid://b25gk4vuiby5p"
+ControllerStatus="*uid://davqk7gvnc8bb"
 
 [editor_plugins]
 

@@ -77,38 +77,41 @@ size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 text = "Options"
 
-[node name="bottom" type="HBoxContainer" parent="VBoxContainer/screen/left" unique_id=482083653]
+[node name="ControllerHint" type="HBoxContainer" parent="VBoxContainer/screen/left" unique_id=482083653]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 10
 
-[node name="controller_select" type="HBoxContainer" parent="VBoxContainer/screen/left/bottom" unique_id=1921020077]
+[node name="controller_select" type="HBoxContainer" parent="VBoxContainer/screen/left/ControllerHint" unique_id=1921020077]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/screen/left/bottom/controller_select" unique_id=1185707952]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1185707952]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture = ExtResource("2_omy8q")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/screen/left/bottom/controller_select" unique_id=1274630517]
+[node name="Label" type="Label" parent="VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1274630517]
 layout_mode = 2
 text = "Select"
 
-[node name="spacer" type="Label" parent="VBoxContainer/screen/left/bottom" unique_id=1363223831]
+[node name="spacer" type="Label" parent="VBoxContainer/screen/left/ControllerHint" unique_id=1363223831]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 
-[node name="controller_back" type="HBoxContainer" parent="VBoxContainer/screen/left/bottom" unique_id=2146446190]
+[node name="controller_back" type="HBoxContainer" parent="VBoxContainer/screen/left/ControllerHint" unique_id=2146446190]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/screen/left/bottom/controller_back" unique_id=989451763]
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=989451763]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture = ExtResource("3_i5wg5")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/screen/left/bottom/controller_back" unique_id=1813727813]
+[node name="Label" type="Label" parent="VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=1813727813]
 layout_mode = 2
 text = "Quit"
 
@@ -122,9 +125,11 @@ size_flags_horizontal = 8
 alignment = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/bottom" unique_id=2144549029]
+modulate = Color(1, 1, 1, 0.54901963)
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 1
 text = "Version #"
 horizontal_alignment = 1
 vertical_alignment = 1

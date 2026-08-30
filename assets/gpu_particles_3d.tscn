@@ -1,0 +1,36 @@
+[gd_scene format=3]
+
+[sub_resource type="Curve" id="Curve_wic6c"]
+_limits = [0.0, 1.0, 0.0, 1.002169]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.39306366, 1), 0.0, 0.0, 0, 0, Vector2(0.49486238, 1), 0.0, 0.0, 0, 0, Vector2(0.59314424, 1), 0.0, 0.0, 0, 0, Vector2(1.002169, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_lrwul"]
+curve = SubResource("Curve_wic6c")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4s3d1"]
+emission_shape = 3
+emission_box_extents = Vector3(20, 20, 20)
+gravity = Vector3(0, -0.05, 0)
+scale_curve = SubResource("CurveTexture_lrwul")
+turbulence_enabled = true
+turbulence_noise_strength = 17.3
+turbulence_influence_min = 0.0
+turbulence_influence_max = 0.020000001
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4s3d1"]
+transparency = 1
+albedo_color = Color(0.77081966, 0.6388195, 0.6395195, 0.2509804)
+
+[sub_resource type="SphereMesh" id="SphereMesh_sxb5y"]
+material = SubResource("StandardMaterial3D_4s3d1")
+radius = 0.025
+height = 0.05
+radial_segments = 8
+rings = 2
+
+[node name="GPUParticles3D" type="GPUParticles3D" unique_id=866350892]
+amount = 2000
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_4s3d1")
+draw_pass_1 = SubResource("SphereMesh_sxb5y")

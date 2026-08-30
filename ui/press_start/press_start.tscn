@@ -1,6 +1,11 @@
 [gd_scene format=3 uid="uid://byx5rk4bgp4f"]
 
 [ext_resource type="Script" uid="uid://cvlx7oncliucf" path="res://ui/press_start/press_start.gd" id="1_wroog"]
+[ext_resource type="Texture2D" uid="uid://dkjorvcbpu4mh" path="res://assets/textures/black ops image.jpg" id="2_q1s87"]
+[ext_resource type="Script" uid="uid://d2tg2afpwq8rv" path="res://ui/screens/components/version#.gd" id="3_4ijo5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_36fj6"]
+font_size = 25
 
 [node name="PressStart" type="Control" unique_id=301977109]
 layout_mode = 3
@@ -11,17 +16,61 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wroog")
 
-[node name="Label" type="Label" parent="." unique_id=1969042245]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=326722871]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_q1s87")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1918190211]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.41568628, 0, 0, 0.3372549)
+
+[node name="Label" type="Label" parent="ColorRect" unique_id=1969042245]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -99.0
-offset_top = -11.5
-offset_right = 99.0
-offset_bottom = 11.5
+offset_left = -154.5
+offset_top = 243.5
+offset_right = 154.5
+offset_bottom = 278.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "press any button to begin"
+label_settings = SubResource("LabelSettings_36fj6")
+
+[node name="bottom" type="HBoxContainer" parent="." unique_id=1755087144]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="Label" type="Label" parent="bottom" unique_id=1320899657]
+modulate = Color(1, 1, 1, 0.54901963)
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+text = "Version #"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("3_4ijo5")
