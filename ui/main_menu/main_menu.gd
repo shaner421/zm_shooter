@@ -10,14 +10,12 @@ const STEAM_UNAVAILABLE_TOOLTIP: String = "Steam was unable to initialize. Pleas
 @onready var _online_button: Button = %OnlineButton
 @onready var _local_button: Button = %LocalButton
 @onready var _options_button: Button = %OptionsButton
-@onready var _quit_button: Button = %QuitButton
 
 
 func _ready() -> void:
 	_online_button.pressed.connect(_on_online_pressed)
 	_local_button.pressed.connect(_on_local_pressed)
 	_options_button.pressed.connect(_on_options_pressed)
-	_quit_button.pressed.connect(_on_quit_pressed)
 
 	_update_online_button_state()
 
@@ -43,7 +41,3 @@ func _on_local_pressed() -> void:
 
 func _on_options_pressed() -> void:
 	MenuManager.change_screen(&"options_screen")
-
-
-func _on_quit_pressed() -> void:
-	get_tree().quit()
