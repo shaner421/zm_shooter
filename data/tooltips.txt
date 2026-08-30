@@ -1,0 +1,6 @@
+# Combat
+Melee kills yield more points than bullets.
+It's faster to switch weapons, than to reload.
+
+# Zombies
+The horde gets faster every few rounds.

@@ -1,11 +1,25 @@
 [gd_scene format=3 uid="uid://ts5oryt4k2yg"]
 
-[ext_resource type="Script" uid="uid://ch0fy4at5x8f0" path="res://sub_viewport_container.gd" id="1_7jktm"]
+[ext_resource type="Script" uid="uid://ch0fy4at5x8f0" path="res://ui/screens/components/pixelate_gameview.gd" id="1_7jktm"]
 [ext_resource type="ArrayMesh" uid="uid://bbhh3gdln75nw" path="res://assets/models/plane_2x2.obj" id="1_80nbo"]
 [ext_resource type="Material" uid="uid://sol4hfbvayir" path="res://assets/textures/wood/old_wood_planks/old_wood_planks.tres" id="1_feb5d"]
 [ext_resource type="Material" uid="uid://b7lmsgjwixxkc" path="res://assets/textures/concrete/brushed_concrete/brushed_concrete.tres" id="3_fc0e3"]
 [ext_resource type="PackedScene" path="res://assets/gpu_particles_3d.tscn" id="4_fc0e3"]
-[ext_resource type="Script" uid="uid://d2d2d2ah5ros6" path="res://flicker.gd" id="5_ryrav"]
+[ext_resource type="Script" uid="uid://d2d2d2ah5ros6" path="res://components/flicker.gd" id="5_ryrav"]
+[ext_resource type="Script" uid="uid://c6k25yq4ohb1r" path="res://components/camerashake.gd" id="7_eow3j"]
+[ext_resource type="ArrayMesh" uid="uid://bf5s6fhqqjdux" path="res://assets/models/pillar_0.25x0.25.obj" id="7_j5wjh"]
+[ext_resource type="ArrayMesh" uid="uid://cebcvhs4pjiui" path="res://assets/models/window.obj" id="7_mfdv2"]
+[ext_resource type="Material" uid="uid://b1wax0l2jpkx4" path="res://assets/textures/concrete/rubble/rubble.tres" id="8_hve3p"]
+[ext_resource type="ArrayMesh" uid="uid://eix44mw2hnrp" path="res://assets/models/rubble_2x2.obj" id="9_mfdv2"]
+
+[sub_resource type="Environment" id="Environment_lc2xo"]
+background_mode = 2
+ambient_light_source = 1
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kgand"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.011764706)
 
 [node name="Game" type="Control" unique_id=1963684073]
 layout_mode = 3
@@ -26,353 +40,537 @@ grow_vertical = 2
 script = ExtResource("1_7jktm")
 resolution_divisor = 3
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1419988264]
+[node name="World" type="SubViewport" parent="SubViewportContainer" unique_id=1419988264]
+unique_name_in_owner = true
 handle_input_locally = false
 scaling_3d_mode = 5
 render_target_update_mode = 4
 
-[node name="game_world" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1398764374]
+[node name="game_world" type="Node3D" parent="SubViewportContainer/World" unique_id=1398764374]
+unique_name_in_owner = true
 
-[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport/game_world" unique_id=1320876914]
+[node name="Node3D" type="Node3D" parent="SubViewportContainer/World/game_world" unique_id=1320876914]
 
-[node name="floor" type="Node3D" parent="SubViewportContainer/SubViewport/game_world/Node3D" unique_id=1669829951]
+[node name="lighting" type="Node3D" parent="SubViewportContainer/World/game_world/Node3D" unique_id=1821246174]
+
+[node name="AreaLight3D" type="AreaLight3D" parent="SubViewportContainer/World/game_world/Node3D/lighting" unique_id=1160331129]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.5739613, 0)
+light_color = Color(0.931169, 0.88699627, 0.8470034, 1)
+shadow_enabled = true
+area_size = Vector2(5, 5)
+
+[node name="AreaLight3D2" type="AreaLight3D" parent="SubViewportContainer/World/game_world/Node3D/lighting" unique_id=788656308]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.469151, -9.907242)
+light_color = Color(0.77278084, 0.8896305, 0.99999994, 1)
+light_energy = 0.9926008
+shadow_enabled = true
+area_range = 5.217
+script = ExtResource("5_ryrav")
+flicker_speed = 1.0
+
+[node name="GPUParticles3D" parent="SubViewportContainer/World/game_world/Node3D/lighting" unique_id=866350892 instance=ExtResource("4_fc0e3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2086313, 0, -4.263858)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewportContainer/World/game_world/Node3D/lighting" unique_id=1437398493]
+environment = SubResource("Environment_lc2xo")
+
+[node name="floor" type="Node3D" parent="SubViewportContainer/World/game_world/Node3D" unique_id=1669829951]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
-[node name="floor" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=786312758]
+[node name="floor" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=786312758]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=981690775]
+[node name="floor2" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=981690775]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor5" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=1876263412]
+[node name="floor5" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1876263412]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 1)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor6" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=1788357447]
+[node name="floor6" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1788357447]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -1)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=1248163618]
+[node name="floor3" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1248163618]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor4" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=1489048772]
+[node name="floor4" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1489048772]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor7" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=1501924998]
+[node name="floor7" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1501924998]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor13" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=1533059657]
+[node name="floor13" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1533059657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -5)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor14" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=286688509]
+[node name="floor14" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=286688509]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -7)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor15" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=1377523900]
+[node name="floor15" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1377523900]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -9)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor16" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=2147017487]
+[node name="floor16" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=2147017487]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -11)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor8" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=1378191265]
+[node name="floor8" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1378191265]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="floor9" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/floor" unique_id=898917916]
+[node name="floor9" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=898917916]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
-[node name="walls" type="Node3D" parent="SubViewportContainer/SubViewport/game_world/Node3D" unique_id=828111451]
+[node name="walls" type="Node3D" parent="SubViewportContainer/World/game_world/Node3D" unique_id=828111451]
 
-[node name="wall" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1330382315]
+[node name="wall" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1330382315]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -3, 1, 1)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1322187310]
+[node name="wall2" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1322187310]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -3, 1, -1)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=709316793]
+[node name="wall3" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=709316793]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -3, 1, -3)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall4" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1387982852]
+[node name="wall4" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1387982852]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, -2, 1, -4)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall5" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=773332372]
+[node name="wall5" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=773332372]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 1, -5)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall7" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=752183875]
+[node name="wall7" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=752183875]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 1, -5)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall11" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=87057599]
+[node name="wall11" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=87057599]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 1, -7)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall12" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1559839649]
+[node name="wall12" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1559839649]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 1, -7)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall13" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=701771258]
+[node name="wall13" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=701771258]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 1, -9)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall14" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=845071142]
+[node name="wall14" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=845071142]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 1, -9)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall6" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=592153729]
+[node name="wall6" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=592153729]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 2, 1, -4)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall8" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=91675501]
+[node name="wall8" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=91675501]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 3, 1, -3)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall9" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1055816170]
+[node name="wall9" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1055816170]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 3, 1, -1)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall10" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1106550953]
+[node name="wall10" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1106550953]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 3, 1, 1)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall15" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=38599861]
+[node name="wall15" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=38599861]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -3, 3, 1)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall16" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1251196016]
+[node name="wall16" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1251196016]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -3, 3, -1)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall17" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=433435908]
+[node name="wall17" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=433435908]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -3, 3, -3)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall18" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1959729394]
+[node name="wall18" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1959729394]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, -2, 3, -4)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall19" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=120178466]
+[node name="wall19" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=120178466]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 3, -5)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall29" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1585774412]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -5)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall32" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1578096070]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -3)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall33" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=771261854]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -1)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall34" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=20849173]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 2, 3, -1)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall35" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1815732005]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 2, 3, -3)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall36" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=154876417]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, 1)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall37" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=364311291]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, -2, 3, -3)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall38" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1461111471]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, -2, 3, -1)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall40" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1261834714]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, -2, 3, 1)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall39" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=814516396]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 2, 3, 1)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall30" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=650483115]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -7)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall31" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=810302511]
-transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -9)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
-
-[node name="wall50" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1169033059]
+[node name="wall50" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1169033059]
 transform = Transform3D(-1, -8.742278e-08, 0, -3.821371e-15, 4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 4, -10)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall51" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=62497138]
+[node name="wall51" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=62497138]
 transform = Transform3D(-1, -8.742278e-08, 0, -3.821371e-15, 4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 6, -10)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall20" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1900990753]
+[node name="wall20" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1900990753]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 3, -5)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall21" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=977357567]
+[node name="wall21" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=977357567]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 3, -7)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall22" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1247478267]
+[node name="wall22" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1247478267]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 3, -7)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall23" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=574409252]
+[node name="wall23" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=574409252]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 3, -9)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall43" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=677129378]
+[node name="wall43" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=677129378]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 1, -11)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall44" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1653880996]
+[node name="wall44" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1653880996]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 3, -11)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall45" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=722296095]
-transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0, 1, -12)
+[node name="wall45" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=722296095]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.0002012, 1.0038999, -12.001153)
 material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("1_80nbo")
+mesh = ExtResource("7_mfdv2")
 
-[node name="wall46" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1563493065]
+[node name="wall46" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1563493065]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0, 3, -12)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall24" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1037624634]
+[node name="wall24" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1037624634]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 3, -9)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall41" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=612423434]
+[node name="wall41" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=612423434]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 3, -11)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall47" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1851623465]
+[node name="wall47" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1851623465]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 5, -11)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall48" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=459638965]
+[node name="wall48" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=459638965]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0, 5, -12)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall49" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=17049858]
+[node name="wall49" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=17049858]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 0.9999318, 4.9969764, -10.999994)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall42" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=689791811]
+[node name="wall42" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=689791811]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 1, -11)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall25" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1031385984]
+[node name="wall25" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1031385984]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 2, 3, -4)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall26" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=1095787637]
+[node name="wall26" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1095787637]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 3, 3, -3)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall27" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=468322957]
+[node name="wall27" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=468322957]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 3, 3, -1)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall28" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/game_world/Node3D/walls" unique_id=317276003]
+[node name="wall28" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=317276003]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 3, 3, 1)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="AreaLight3D" type="AreaLight3D" parent="SubViewportContainer/SubViewport/game_world" unique_id=1160331129]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.5739613, 0)
-shadow_enabled = true
+[node name="ceiling" type="Node3D" parent="SubViewportContainer/World/game_world/Node3D" unique_id=1403303170]
 
-[node name="AreaLight3D2" type="AreaLight3D" parent="SubViewportContainer/SubViewport/game_world" unique_id=788656308]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.273437, -10.803942)
-light_energy = 1.1262479
-shadow_enabled = true
-script = ExtResource("5_ryrav")
-flicker_speed = 1.0
+[node name="ceiling29" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=1585774412]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -5)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
 
-[node name="GPUParticles3D" parent="SubViewportContainer/SubViewport/game_world" unique_id=866350892 instance=ExtResource("4_fc0e3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2086313, 0, -4.263858)
+[node name="ceiling32" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=1578096070]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -3)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/game_world" unique_id=1792234815]
+[node name="ceiling33" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=771261854]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -1)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling34" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=20849173]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 2, 3, -1)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling35" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=1815732005]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 2, 3, -3)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling36" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=154876417]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, 1)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling37" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=364311291]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, -2, 3, -3)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling38" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=1461111471]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, -2, 3, -1)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling40" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=1261834714]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, -2, 3, 1)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling39" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=814516396]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 2, 3, 1)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling30" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=650483115]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -7)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling31" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=810302511]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -9)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling41" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=1899207411]
+transform = Transform3D(-1, -8.742278e-08, 0, -8.742278e-08, 1, 8.742278e-08, -7.642742e-15, 8.742278e-08, -1, 0, 3.6368194, -9)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling42" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=746407358]
+transform = Transform3D(-1, -8.742278e-08, 0, -8.742278e-08, 1, 8.742278e-08, -7.642742e-15, 8.742278e-08, -1, 0, 3.6368194, -7)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="pillars" type="Node3D" parent="SubViewportContainer/World/game_world/Node3D" unique_id=1031495433]
+
+[node name="pillar" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=489416977]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar2" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=735582293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar3" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1496661446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar4" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=624011983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar5" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=346305427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar6" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1571666175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar16" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1651032627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar17" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1731717275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar18" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=2025844808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar19" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=77908502]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar20" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=2042789288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 2)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar21" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1418208273]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 2)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar22" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=21123630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 2)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar23" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=755810900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 2)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar7" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1594218591]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -4)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar8" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1331993155]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -12)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar9" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=495335499]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -12)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar10" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=678029313]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -12)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar11" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1519873283]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -12)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar12" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1647555167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 4, -12)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar13" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1419757492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 6, -12)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar14" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=998201231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, -12)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="pillar15" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/pillars" unique_id=1975084638]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 6, -12)
+material_override = ExtResource("3_fc0e3")
+material_overlay = SubResource("StandardMaterial3D_kgand")
+mesh = ExtResource("7_j5wjh")
+
+[node name="objects" type="Node3D" parent="SubViewportContainer/World/game_world/Node3D" unique_id=1318844990]
+
+[node name="rubble" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/objects" unique_id=1876453613]
+transform = Transform3D(0.7157874, 0, -0.69831824, 0, 1, 0, 0.69831824, 0, 0.7157874, 0.05514568, -0.06376147, -11.39354)
+material_override = ExtResource("8_hve3p")
+mesh = ExtResource("9_mfdv2")
+
+[node name="rubble2" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/objects" unique_id=830877829]
+transform = Transform3D(0.7157874, 0, -0.69831824, 0, 1, 0, 0.69831824, 0, 0.7157874, -0.61192566, -0.06376147, -11.39354)
+material_override = ExtResource("8_hve3p")
+mesh = ExtResource("9_mfdv2")
+
+[node name="rubble3" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/objects" unique_id=1572466990]
+transform = Transform3D(-0.04475087, 0, -1.1318709, 0, 1.1327553, 0, 1.1318709, 0, -0.04475087, 0.05959055, -0.06376147, -10.717263)
+material_override = ExtResource("8_hve3p")
+mesh = ExtResource("9_mfdv2")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/World/game_world" unique_id=1792234815]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+script = ExtResource("7_eow3j")
+shake_intensity = 0.004
+rotation_intensity = 0.002
+shake_speed = 0.025

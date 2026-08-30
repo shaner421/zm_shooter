@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cfhqp0xgo7oyy"]
+
+[ext_resource type="Script" uid="uid://1wbuexjplmmq" path="res://ui/screens/components/tooltip_ticker/tooltip_ticker.gd" id="1_nuswy"]
+
+[node name="TooltipTicker" type="Control" unique_id=648960296]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_nuswy")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1759909207]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TooltipLabel" type="Label" parent="MarginContainer" unique_id=536498539]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ToolTip"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="CycleTimer" type="Timer" parent="." unique_id=1526796668]
+unique_name_in_owner = true

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cdy27snximlum" path="res://assets/textures/buttons/Nintendo Switch/Default/switch_buttons_down_outline.png" id="2_omy8q"]
 [ext_resource type="Texture2D" uid="uid://dnlurua28il78" path="res://assets/textures/buttons/Nintendo Switch/Default/switch_buttons_right_outline.png" id="3_i5wg5"]
 [ext_resource type="Script" uid="uid://d2tg2afpwq8rv" path="res://ui/screens/components/version#.gd" id="4_i5wg5"]
+[ext_resource type="PackedScene" uid="uid://cfhqp0xgo7oyy" path="res://ui/screens/components/tooltip_ticker/tooltip_ticker.tscn" id="5_3c04x"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_uhj5c"]
 font_size = 45
@@ -18,42 +19,45 @@ grow_vertical = 2
 script = ExtResource("1_uhj5c")
 metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=807958518]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=398915114]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=807958518]
+layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="screen" type="HBoxContainer" parent="VBoxContainer" unique_id=803534672]
+[node name="screen" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=803534672]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="left" type="VBoxContainer" parent="VBoxContainer/screen" unique_id=795341692]
+[node name="left" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen" unique_id=795341692]
 layout_mode = 2
 size_flags_horizontal = 6
 alignment = 1
 
-[node name="Label3" type="Label" parent="VBoxContainer/screen/left" unique_id=88270942]
-custom_minimum_size = Vector2(0, 200)
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/screen/left" unique_id=189610809]
 layout_mode = 2
+size_flags_vertical = 6
 label_settings = SubResource("LabelSettings_uhj5c")
 horizontal_alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/screen/left" unique_id=55802085]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/screen/left" unique_id=55802085]
 layout_mode = 2
 text = "ZM_Shooter"
 label_settings = SubResource("LabelSettings_uhj5c")
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer/screen/left" unique_id=608854171]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/screen/left" unique_id=608854171]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_uhj5c")
 horizontal_alignment = 1
 
-[node name="OnlineButton" type="Button" parent="VBoxContainer/screen/left" unique_id=947160336]
+[node name="OnlineButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=947160336]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
@@ -61,7 +65,7 @@ size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 text = "Online"
 
-[node name="LocalButton" type="Button" parent="VBoxContainer/screen/left" unique_id=632123856]
+[node name="LocalButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=632123856]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
@@ -69,7 +73,7 @@ size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 text = "Local"
 
-[node name="OptionsButton" type="Button" parent="VBoxContainer/screen/left" unique_id=734260276]
+[node name="OptionsButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=734260276]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
@@ -77,54 +81,58 @@ size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 text = "Options"
 
-[node name="ControllerHint" type="HBoxContainer" parent="VBoxContainer/screen/left" unique_id=482083653]
+[node name="ControllerHint" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/left" unique_id=482083653]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
 size_flags_vertical = 10
+alignment = 1
 
-[node name="controller_select" type="HBoxContainer" parent="VBoxContainer/screen/left/ControllerHint" unique_id=1921020077]
+[node name="controller_select" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint" unique_id=1921020077]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1185707952]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1185707952]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture = ExtResource("2_omy8q")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1274630517]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1274630517]
 layout_mode = 2
 text = "Select"
 
-[node name="spacer" type="Label" parent="VBoxContainer/screen/left/ControllerHint" unique_id=1363223831]
+[node name="spacer" type="Label" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint" unique_id=1363223831]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 
-[node name="controller_back" type="HBoxContainer" parent="VBoxContainer/screen/left/ControllerHint" unique_id=2146446190]
+[node name="controller_back" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint" unique_id=2146446190]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=989451763]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=989451763]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture = ExtResource("3_i5wg5")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=1813727813]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=1813727813]
 layout_mode = 2
 text = "Quit"
 
-[node name="right" type="VBoxContainer" parent="VBoxContainer/screen" unique_id=30108347]
+[node name="right" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen" unique_id=30108347]
 layout_mode = 2
 size_flags_horizontal = 3
+alignment = 1
 
-[node name="bottom" type="HBoxContainer" parent="VBoxContainer" unique_id=1650704958]
+[node name="TooltipTicker" parent="MarginContainer/VBoxContainer/screen/right" unique_id=648960296 instance=ExtResource("5_3c04x")]
+layout_mode = 2
+
+[node name="bottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1650704958]
 layout_mode = 2
 size_flags_horizontal = 8
 alignment = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/bottom" unique_id=2144549029]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/bottom" unique_id=2144549029]
 modulate = Color(1, 1, 1, 0.54901963)
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
