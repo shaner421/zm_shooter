@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bct8huw53hjpy"]
+
+[ext_resource type="Script" uid="uid://cwtl3asg8ahhf" path="res://MenuManager/menu_manager.gd" id="1_4cdf6"]
+[ext_resource type="PackedScene" uid="uid://byx5rk4bgp4f" path="res://ui/press_start/press_start.tscn" id="2_cp2tp"]
+[ext_resource type="Script" uid="uid://b7nu14pi3dsw8" path="res://ui/screens/resources/screen_registry_entry.gd" id="2_csi1p"]
+[ext_resource type="PackedScene" uid="uid://bwqworwugpknk" path="res://ui/main_menu/main_menu.tscn" id="4_u76ei"]
+
+[sub_resource type="Resource" id="Resource_4cdf6"]
+script = ExtResource("2_csi1p")
+screen_name = &"press_start"
+scene = ExtResource("2_cp2tp")
+metadata/_custom_type_script = "uid://b7nu14pi3dsw8"
+
+[sub_resource type="Resource" id="Resource_cp2tp"]
+script = ExtResource("2_csi1p")
+screen_name = &"main_menu"
+scene = ExtResource("4_u76ei")
+metadata/_custom_type_script = "uid://b7nu14pi3dsw8"
+
+[node name="MenuManager" type="CanvasLayer" unique_id=2066713399 node_paths=PackedStringArray("screen_container")]
+script = ExtResource("1_4cdf6")
+screen_entries = Array[ExtResource("2_csi1p")]([SubResource("Resource_4cdf6"), SubResource("Resource_cp2tp")])
+screen_container = NodePath("screen_container")
+initial_screen = &"press_start"
+
+[node name="screen_container" type="PanelContainer" parent="." unique_id=157316976]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="overlay" type="Control" parent="." unique_id=1761733938]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true

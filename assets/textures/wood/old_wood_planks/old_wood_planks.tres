@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://sol4hfbvayir"]
+
+[ext_resource type="Texture2D" uid="uid://byj22ytik22h" path="res://assets/textures/wood/old_wood_planks/old_wood_planks_128.jpg" id="1_dupq1"]
+[ext_resource type="Texture2D" uid="uid://bbs1w5krg7hpl" path="res://assets/textures/wood/old_wood_planks/weathered_planks_nor_gl_4k.jpg" id="2_o02bk"]
+[ext_resource type="Texture2D" uid="uid://crgtx3s1w245h" path="res://assets/textures/wood/old_wood_planks/weathered_planks_rough_4k.jpg" id="3_7wqtf"]
+
+[resource]
+albedo_texture = ExtResource("1_dupq1")
+roughness_texture = ExtResource("3_7wqtf")
+normal_enabled = true
+normal_texture = ExtResource("2_o02bk")
+texture_filter = 0

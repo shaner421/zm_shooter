@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://ts5oryt4k2yg"]
+
+[ext_resource type="ArrayMesh" uid="uid://bbhh3gdln75nw" path="res://assets/models/plane_2x2.obj" id="1_80nbo"]
+[ext_resource type="Material" uid="uid://sol4hfbvayir" path="res://assets/textures/wood/old_wood_planks/old_wood_planks.tres" id="1_feb5d"]
+[ext_resource type="Material" uid="uid://b7lmsgjwixxkc" path="res://assets/textures/concrete/brushed_concrete/brushed_concrete.tres" id="3_fc0e3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_36fj6"]
+
+[node name="Game" type="Node" unique_id=1172357815]
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1320876914]
+
+[node name="floor" type="MeshInstance3D" parent="Node3D" unique_id=786312758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+material_override = ExtResource("1_feb5d")
+mesh = ExtResource("1_80nbo")
+
+[node name="floor2" type="MeshInstance3D" parent="Node3D" unique_id=981690775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+material_override = ExtResource("1_feb5d")
+mesh = ExtResource("1_80nbo")
+
+[node name="floor5" type="MeshInstance3D" parent="Node3D" unique_id=381116172]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -2, 1, 1)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="floor6" type="MeshInstance3D" parent="Node3D" unique_id=1489498819]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -2, 1, -1)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="floor3" type="MeshInstance3D" parent="Node3D" unique_id=1248163618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+material_override = ExtResource("1_feb5d")
+mesh = ExtResource("1_80nbo")
+
+[node name="floor4" type="MeshInstance3D" parent="Node3D" unique_id=1489048772]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+material_override = ExtResource("1_feb5d")
+mesh = ExtResource("1_80nbo")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1850351200]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1132395418]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_36fj6")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=797864683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5974483, 0)
+
+[node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=1160331129]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.7869122, 0)
+shadow_enabled = true
