@@ -7,5 +7,5 @@ func set_username(username:String)->void:
 func set_avatar(texture:Texture2D)->void:
 	$MarginContainer/HBoxContainer/TextureRect.texture = texture
 
-func set_ready(ready:bool)->void:
-	$MarginContainer/HBoxContainer/CheckBox.button_pressed = ready
+func set_ready(ready_state:bool)->void:
+	$MarginContainer/HBoxContainer/CheckBox.button_pressed = ready_state

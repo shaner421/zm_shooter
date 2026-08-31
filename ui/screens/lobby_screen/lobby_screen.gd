@@ -23,11 +23,13 @@ const AVATAR_SIZE: int = 2
 
 #@onready var _status_label: Label = %StatusLabel
 @onready var _join_code_label: Label = %JoinCodeLabel
+@onready var _copy_join_code: Button = %CopyJoinCode
 @onready var _player_list: VBoxContainer = %PlayerCards
 @onready var _ready_button: Button = %ReadyButton
 @onready var _mode_button: Button = %ModeButton
 @onready var _map_button: Button = %MapButton
 @onready var _invite_button: Button = %InviteButton
+@onready var _controller_hint: Control = %ControllerHint
 #@onready var _leave_button: Button = %LeaveButton
 
 ## Maps a member's Steam ID to the PlayerCard instance currently showing
@@ -38,13 +40,19 @@ var _player_cards: Dictionary[int, Node] = {}
 
 
 func _ready() -> void:
-	#_leave_button.pressed.connect(_on_leave_pressed)
+	Steam.lobby_data_update.connect(_on_lobby_data_update)
+	_copy_join_code.pressed.connect(_on_copy_join_code_pressed)
 	_invite_button.pressed.connect(_on_invite_pressed)
+	_ready_button.toggled.connect(_on_ready_toggled)
 
 	Steam.avatar_loaded.connect(_on_avatar_loaded)
 	LobbyManager.lobby_created.connect(_on_lobby_created)
 	LobbyManager.lobby_members_changed.connect(_on_lobby_state_changed)
-
+	
+	ControllerStatus.controller_connected.connect(_on_controller_status_changed)
+	ControllerStatus.controller_disconnected.connect(_on_controller_status_changed)
+	_update_controller_hint()
+	
 	if LobbyManager.lobby_id != 0:
 		_show_lobby()
 	else:
@@ -53,6 +61,8 @@ func _ready() -> void:
 		_refresh_host_controls()
 		LobbyManager.create_lobby()
 
+
+# ---- Lobby entry and lifecycle ----
 
 func _on_lobby_created(success: bool) -> void:
 	if not success:
@@ -84,6 +94,23 @@ func _on_lobby_state_changed() -> void:
 	_refresh_player_list()
 	_refresh_host_controls()
 
+func _update_controller_hint() -> void:
+	var v = ControllerStatus.has_any_controller()
+	_controller_hint.modulate = Color(v,v,v,v)
+
+
+## Handles both controller_connected and controller_disconnected, since
+## either one just means "recheck whether any controller is plugged in."
+## _arg2 covers the extra controller_name argument that only
+## controller_connected sends; controller_disconnected only sends _device.
+func _on_controller_status_changed(_device: int, _arg2 = null) -> void:
+	_update_controller_hint()
+
+# ---- Player cards ----
+
+func _is_member_ready(steam_id: int) -> bool:
+	return Steam.getLobbyMemberData(LobbyManager.lobby_id, steam_id, "ready") == "1"
+
 
 ## Rebuilds the visible member list from scratch. Simple to reason about at
 ## this size, this screen only ever shows a handful of players. Usernames
@@ -97,22 +124,41 @@ func _refresh_player_list() -> void:
 	_player_cards.clear()
 
 	for steam_id in LobbyManager.get_member_steam_ids():
-		var card: Node = PLAYER_CARD_SCENE.instantiate()
+		var card: PlayerCard = PLAYER_CARD_SCENE.instantiate()
 		_player_list.add_child(card)
-
+		
 		var display_name: String = Steam.getFriendPersonaName(steam_id)
 		if steam_id == LobbyManager.get_host_steam_id():
 			display_name += " (Host)"
 		card.set_username(display_name)
-
+		card.set_ready(_is_member_ready(steam_id))
+		print(_is_member_ready(steam_id))
 		_player_cards[steam_id] = card
-
 		if steam_id == SteamManager.local_steam_id and SteamManager.local_avatar_texture != null:
 			card.set_avatar(SteamManager.local_avatar_texture)
 		else:
 			Steam.getPlayerAvatar(AVATAR_SIZE, steam_id)
 	
 	%OnlinePlayers.text = str(_player_cards.size()) + "/x Players In Lobby"
+
+
+func _on_lobby_data_update(_success, lobby_id: int, member_id: int) -> void:
+	if lobby_id != LobbyManager.lobby_id:
+		return
+
+	if member_id == lobby_id:
+		return
+
+	if _player_cards.has(member_id) and is_instance_valid(_player_cards[member_id]):
+		_player_cards[member_id].set_ready(_is_member_ready(member_id))
+	var start = false
+	for steam_id in LobbyManager.get_member_steam_ids():
+		start = true
+		if !_is_member_ready(steam_id):
+			start=false
+	if LobbyManager.get_member_steam_ids().size() > 1 and start:
+		print("should be starting game now")
+
 
 ## Fires for every avatar request made anywhere in the game, not just the
 ## ones this screen started, so this only reacts if the result belongs to a
@@ -130,6 +176,8 @@ func _on_avatar_loaded(avatar_id: int, width: int, data: PackedByteArray) -> voi
 	card.set_avatar(avatar_texture)
 
 
+# ---- Host controls ----
+
 ## Shows Start, Mode, and Map to everyone, but only lets the current host
 ## interact with them. Left visible rather than hidden for non-hosts so
 ## everyone can see what the host is choosing once those are wired up.
@@ -139,8 +187,22 @@ func _refresh_host_controls() -> void:
 	_map_button.disabled = not is_host
 
 
+# ---- Button handlers ----
+
+func _on_copy_join_code_pressed() -> void:
+	DisplayServer.clipboard_set(LobbyManager.join_code)
+	var original_text: String = %CopyJoinCode.text
+	%CopyJoinCode.text = "Copied!"
+	await get_tree().create_timer(1.0).timeout
+	%CopyJoinCode.text = original_text
+
+
 func _on_invite_pressed() -> void:
 	Steam.activateGameOverlayInviteDialog(LobbyManager.lobby_id)
+
+
+func _on_ready_toggled(toggled_on:bool) -> void:
+	Steam.setLobbyMemberData(LobbyManager.lobby_id, "ready", "1" if toggled_on else "0")
 
 
 func _on_leave_pressed() -> void:

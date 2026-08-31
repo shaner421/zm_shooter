@@ -181,9 +181,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "join Code: "
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/screen/right/bottom/HBoxContainer" unique_id=1382373266]
+[node name="CopyJoinCode" type="Button" parent="MarginContainer/VBoxContainer/screen/right/bottom/HBoxContainer" unique_id=1382373266]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Copy"
 
 [node name="map_game" type="Label" parent="MarginContainer/VBoxContainer/screen/right/bottom" unique_id=1027469195]
