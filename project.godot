@@ -13,6 +13,7 @@ config_version=5
 config/name="zm_shooter"
 run/main_scene="uid://ts5oryt4k2yg"
 config/features=PackedStringArray("4.7", "Forward Plus")
+run/max_fps=90
 config/icon="res://icon.svg"
 
 [autoload]
@@ -20,6 +21,13 @@ config/icon="res://icon.svg"
 MenuManager="*uid://bct8huw53hjpy"
 SteamManager="*uid://b25gk4vuiby5p"
 ControllerStatus="*uid://davqk7gvnc8bb"
+LobbyManager="*uid://bd6fs3ncytsbc"
+FpsCounter="*uid://ck1g4oiajqi6k"
+
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep_width"
 
 [editor_plugins]
 
@@ -32,3 +40,11 @@ enabled=PackedStringArray("res://addons/godotsteam/plugin.cfg")
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+
+[steam]
+
+initialization/app_data/app_id=480
+initialization/app_data/demo_id=480
+initialization/app_data/playtest_id=480
+initialization/processes/initialize_on_startup=true
+initialization/processes/embed_callbacks=true

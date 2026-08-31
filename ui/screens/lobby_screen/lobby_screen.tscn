@@ -1,0 +1,218 @@
+[gd_scene format=3 uid="uid://7es7wlisvjo"]
+
+[ext_resource type="Script" uid="uid://cbrdiw3ursj46" path="res://ui/screens/lobby_screen/lobby_screen.gd" id="1_abe8v"]
+[ext_resource type="Texture2D" uid="uid://cdy27snximlum" path="res://assets/textures/buttons/Nintendo Switch/Default/switch_buttons_down_outline.png" id="2_0k7h7"]
+[ext_resource type="Texture2D" uid="uid://dnlurua28il78" path="res://assets/textures/buttons/Nintendo Switch/Default/switch_buttons_right_outline.png" id="3_ri685"]
+[ext_resource type="Script" uid="uid://d2tg2afpwq8rv" path="res://ui/screens/components/version#.gd" id="5_4nxv2"]
+[ext_resource type="PackedScene" uid="uid://cfhqp0xgo7oyy" path="res://ui/screens/components/tooltip_ticker/tooltip_ticker.tscn" id="6_jh3g6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_uhj5c"]
+font_size = 45
+
+[sub_resource type="LabelSettings" id="LabelSettings_71mpl"]
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_36fj6"]
+size = Vector2(200, 200)
+
+[node name="LobbyScreen" type="Control" unique_id=1748685573]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abe8v")
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=398915114]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer" unique_id=2015983883]
+layout_mode = 2
+color = Color(0, 0, 0, 0.5137255)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=807958518]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="screen" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=803534672]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="left" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen" unique_id=795341692]
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/screen/left" unique_id=189610809]
+layout_mode = 2
+size_flags_vertical = 6
+label_settings = SubResource("LabelSettings_uhj5c")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/screen/left" unique_id=55802085]
+custom_minimum_size = Vector2(300, 75)
+layout_mode = 2
+text = "Lobby"
+label_settings = SubResource("LabelSettings_uhj5c")
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/screen/left" unique_id=608854171]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_uhj5c")
+horizontal_alignment = 1
+
+[node name="ReadyButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=947160336]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+toggle_mode = true
+text = "Ready Up"
+
+[node name="ModeButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=632123856]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+text = "Game Mode"
+
+[node name="MapButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=734260276]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+text = "Map"
+
+[node name="ControllerHint" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/left" unique_id=482083653]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 10
+alignment = 1
+
+[node name="controller_select" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint" unique_id=1921020077]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1185707952]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("2_0k7h7")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1274630517]
+layout_mode = 2
+text = "Select"
+
+[node name="spacer" type="Label" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint" unique_id=1363223831]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="controller_back" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint" unique_id=2146446190]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=989451763]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("3_ri685")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=1813727813]
+layout_mode = 2
+text = "Leave"
+
+[node name="right" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen" unique_id=30108347]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="top" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen/right" unique_id=1485026729]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/right/top" unique_id=111483914]
+layout_mode = 2
+
+[node name="OnlinePlayers" type="Label" parent="MarginContainer/VBoxContainer/screen/right/top/HBoxContainer" unique_id=1201156090]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+text = "x/x Players"
+label_settings = SubResource("LabelSettings_71mpl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InviteButton" type="Button" parent="MarginContainer/VBoxContainer/screen/right/top/HBoxContainer" unique_id=1246435121]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_default_cursor_shape = 2
+text = "Invite"
+
+[node name="PlayerCards" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen/right/top" unique_id=1614077047]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="bottom" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen/right" unique_id=827278678]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/right/bottom" unique_id=540025026]
+layout_mode = 2
+
+[node name="JoinCodeLabel" type="Label" parent="MarginContainer/VBoxContainer/screen/right/bottom/HBoxContainer" unique_id=538914843]
+unique_name_in_owner = true
+layout_mode = 2
+text = "join Code: "
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/screen/right/bottom/HBoxContainer" unique_id=1382373266]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "Copy"
+
+[node name="map_game" type="Label" parent="MarginContainer/VBoxContainer/screen/right/bottom" unique_id=1027469195]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Map Name \\ Game Mode"
+
+[node name="map_img" type="TextureRect" parent="MarginContainer/VBoxContainer/screen/right/bottom" unique_id=1770047097]
+unique_name_in_owner = true
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_36fj6")
+stretch_mode = 4
+
+[node name="bottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1650704958]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/bottom" unique_id=2144549029]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+text = "Version #"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_4nxv2")
+
+[node name="TooltipTicker" parent="MarginContainer/VBoxContainer/bottom" unique_id=648960296 instance=ExtResource("6_jh3g6")]
+layout_mode = 2
+size_flags_horizontal = 3

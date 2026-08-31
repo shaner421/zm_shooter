@@ -1,21 +1,27 @@
-[gd_scene format=3 uid="uid://bwqworwugpknk"]
+[gd_scene format=3 uid="uid://mkvsmqo8b708"]
 
-[ext_resource type="Script" uid="uid://cwak14c32vwcb" path="res://ui/main_menu/main_menu.gd" id="1_uhj5c"]
-[ext_resource type="Texture2D" uid="uid://cdy27snximlum" path="res://assets/textures/buttons/Nintendo Switch/Default/switch_buttons_down_outline.png" id="2_omy8q"]
-[ext_resource type="Texture2D" uid="uid://dnlurua28il78" path="res://assets/textures/buttons/Nintendo Switch/Default/switch_buttons_right_outline.png" id="3_i5wg5"]
-[ext_resource type="Script" uid="uid://d2tg2afpwq8rv" path="res://ui/screens/components/version#.gd" id="4_i5wg5"]
+[ext_resource type="Script" uid="uid://buhutpro5veyf" path="res://ui/screens/online_screen/online_screen.gd" id="1_i8muf"]
+[ext_resource type="Texture2D" uid="uid://cdy27snximlum" path="res://assets/textures/buttons/Nintendo Switch/Default/switch_buttons_down_outline.png" id="2_75vk3"]
+[ext_resource type="Texture2D" uid="uid://dnlurua28il78" path="res://assets/textures/buttons/Nintendo Switch/Default/switch_buttons_right_outline.png" id="3_wv0cn"]
+[ext_resource type="PackedScene" uid="uid://kitpgxl0kcjc" path="res://ui/screens/components/player_card/player_card.tscn" id="4_08j0e"]
+[ext_resource type="Script" uid="uid://d2tg2afpwq8rv" path="res://ui/screens/components/version#.gd" id="4_segaf"]
+[ext_resource type="PackedScene" uid="uid://cfhqp0xgo7oyy" path="res://ui/screens/components/tooltip_ticker/tooltip_ticker.tscn" id="5_71mpl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_uhj5c"]
 font_size = 45
 
-[node name="MainMenu" type="Control" unique_id=1748685573]
+[sub_resource type="LabelSettings" id="LabelSettings_71mpl"]
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="OnlineScreen" type="Control" unique_id=1748685573]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_uhj5c")
+script = ExtResource("1_i8muf")
 metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=398915114]
@@ -57,41 +63,52 @@ layout_mode = 2
 label_settings = SubResource("LabelSettings_uhj5c")
 horizontal_alignment = 1
 
-[node name="OnlineButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=947160336]
+[node name="HostButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=947160336]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_horizontal = 0
-focus_neighbor_top = NodePath("../OptionsButton")
-focus_neighbor_bottom = NodePath("../LocalButton")
-focus_next = NodePath("../LocalButton")
-focus_previous = NodePath("../OptionsButton")
 mouse_default_cursor_shape = 2
-text = "Online"
+text = "Host Game"
 
-[node name="LocalButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=632123856]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 50)
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/left" unique_id=1581628361]
 layout_mode = 2
-size_flags_horizontal = 0
-focus_neighbor_top = NodePath("../OnlineButton")
-focus_neighbor_bottom = NodePath("../OptionsButton")
-focus_next = NodePath("../OptionsButton")
-focus_previous = NodePath("../OnlineButton")
-mouse_default_cursor_shape = 2
-text = "Local"
 
-[node name="OptionsButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=734260276]
+[node name="JoinButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left/HBoxContainer" unique_id=632123856]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 size_flags_horizontal = 0
-focus_neighbor_top = NodePath("../LocalButton")
-focus_neighbor_bottom = NodePath("../OnlineButton")
-focus_next = NodePath("../OnlineButton")
-focus_previous = NodePath("../LocalButton")
 mouse_default_cursor_shape = 2
-text = "Options"
+toggle_mode = true
+text = "Join Game"
+
+[node name="JoinCode" type="LineEdit" parent="MarginContainer/VBoxContainer/screen/left/HBoxContainer" unique_id=249467064]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Join Code"
+alignment = 1
+max_length = 4
+
+[node name="GoButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left/HBoxContainer" unique_id=1710962416]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+toggle_mode = true
+text = "->"
+
+[node name="SoloButton" type="Button" parent="MarginContainer/VBoxContainer/screen/left" unique_id=734260276]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+text = "Solo"
 
 [node name="ControllerHint" type="HBoxContainer" parent="MarginContainer/VBoxContainer/screen/left" unique_id=482083653]
 unique_name_in_owner = true
@@ -106,7 +123,7 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1185707952]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-texture = ExtResource("2_omy8q")
+texture = ExtResource("2_75vk3")
 expand_mode = 3
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_select" unique_id=1274630517]
@@ -124,17 +141,40 @@ layout_mode = 2
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=989451763]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-texture = ExtResource("3_i5wg5")
+texture = ExtResource("3_wv0cn")
 expand_mode = 3
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/screen/left/ControllerHint/controller_back" unique_id=1813727813]
 layout_mode = 2
-text = "Quit"
+text = "Back"
 
 [node name="right" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen" unique_id=30108347]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
+
+[node name="top" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen/right" unique_id=1485026729]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="OnlinePlayers" type="Label" parent="MarginContainer/VBoxContainer/screen/right/top" unique_id=1201156090]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 10
+text = "Online Players: x"
+label_settings = SubResource("LabelSettings_71mpl")
+
+[node name="PlayerCard" parent="MarginContainer/VBoxContainer/screen/right/top" unique_id=1945250823 instance=ExtResource("4_08j0e")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="bottom" type="VBoxContainer" parent="MarginContainer/VBoxContainer/screen/right" unique_id=827278678]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
 
 [node name="bottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1650704958]
 layout_mode = 2
@@ -142,7 +182,7 @@ size_flags_horizontal = 8
 alignment = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/bottom" unique_id=2144549029]
-modulate = Color(1, 1, 1, 0.54901963)
+modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -150,4 +190,8 @@ mouse_filter = 1
 text = "Version #"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("4_i5wg5")
+script = ExtResource("4_segaf")
+
+[node name="TooltipTicker" parent="MarginContainer/VBoxContainer/bottom" unique_id=648960296 instance=ExtResource("5_71mpl")]
+layout_mode = 2
+size_flags_horizontal = 3

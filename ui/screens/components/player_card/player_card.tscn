@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://kitpgxl0kcjc"]
+
+[ext_resource type="Script" uid="uid://dk2e56bkdsiip" path="res://ui/screens/components/player_card/player_card.gd" id="1_5rn8l"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_36fj6"]
+size = Vector2(25, 25)
+
+[node name="PlayerCard" type="Control" unique_id=1945250823]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 3
+anchor_right = 0.17400001
+anchor_bottom = 0.062000003
+offset_right = -200.44801
+offset_bottom = -40.176003
+script = ExtResource("1_5rn8l")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1008067215]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer" unique_id=1486230304]
+layout_mode = 2
+color = Color(0, 0, 0, 0.5529412)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1498978047]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/HBoxContainer" unique_id=1190428960]
+layout_mode = 2
+button_mask = 0
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=646519537]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_36fj6")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1433931502]
+layout_mode = 2
+text = "Username"

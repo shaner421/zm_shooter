@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://1wbuexjplmmq" path="res://ui/screens/components/tooltip_ticker/tooltip_ticker.gd" id="1_nuswy"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_08j0e"]
+
 [node name="TooltipTicker" type="Control" unique_id=648960296]
-custom_minimum_size = Vector2(150, 25)
+custom_minimum_size = Vector2(500, 35)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_nuswy")
@@ -20,6 +22,7 @@ grow_vertical = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "ToolTip"
+label_settings = SubResource("LabelSettings_08j0e")
 horizontal_alignment = 1
 autowrap_mode = 3
 

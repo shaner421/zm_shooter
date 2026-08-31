@@ -6,11 +6,10 @@
 [ext_resource type="Material" uid="uid://b7lmsgjwixxkc" path="res://assets/textures/concrete/brushed_concrete/brushed_concrete.tres" id="3_fc0e3"]
 [ext_resource type="PackedScene" path="res://assets/gpu_particles_3d.tscn" id="4_fc0e3"]
 [ext_resource type="Script" uid="uid://d2d2d2ah5ros6" path="res://components/flicker.gd" id="5_ryrav"]
-[ext_resource type="Script" uid="uid://c6k25yq4ohb1r" path="res://components/camerashake.gd" id="7_eow3j"]
 [ext_resource type="ArrayMesh" uid="uid://bf5s6fhqqjdux" path="res://assets/models/pillar_0.25x0.25.obj" id="7_j5wjh"]
-[ext_resource type="ArrayMesh" uid="uid://cebcvhs4pjiui" path="res://assets/models/window.obj" id="7_mfdv2"]
 [ext_resource type="Material" uid="uid://b1wax0l2jpkx4" path="res://assets/textures/concrete/rubble/rubble.tres" id="8_hve3p"]
 [ext_resource type="ArrayMesh" uid="uid://eix44mw2hnrp" path="res://assets/models/rubble_2x2.obj" id="9_mfdv2"]
+[ext_resource type="PackedScene" uid="uid://cdianigpoc43g" path="res://assets/models/window.blend" id="11_mfdv2"]
 
 [sub_resource type="Environment" id="Environment_lc2xo"]
 background_mode = 2
@@ -37,13 +36,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+stretch = true
 script = ExtResource("1_7jktm")
-resolution_divisor = 3
+resolution_divisor = 1
 
 [node name="World" type="SubViewport" parent="SubViewportContainer" unique_id=1419988264]
 unique_name_in_owner = true
 handle_input_locally = false
 scaling_3d_mode = 5
+size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="game_world" type="Node3D" parent="SubViewportContainer/World" unique_id=1398764374]
@@ -55,14 +56,15 @@ unique_name_in_owner = true
 
 [node name="AreaLight3D" type="AreaLight3D" parent="SubViewportContainer/World/game_world/Node3D/lighting" unique_id=1160331129]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.5739613, 0)
-light_color = Color(0.931169, 0.88699627, 0.8470034, 1)
+light_color = Color(0.8344729, 0.82764816, 1, 1)
+light_energy = 1.571
 shadow_enabled = true
 area_size = Vector2(5, 5)
 
 [node name="AreaLight3D2" type="AreaLight3D" parent="SubViewportContainer/World/game_world/Node3D/lighting" unique_id=788656308]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.469151, -9.907242)
 light_color = Color(0.77278084, 0.8896305, 0.99999994, 1)
-light_energy = 0.9926008
+light_energy = 0.992174
 shadow_enabled = true
 area_range = 5.217
 script = ExtResource("5_ryrav")
@@ -129,6 +131,21 @@ mesh = ExtResource("1_80nbo")
 
 [node name="floor16" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=2147017487]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -11)
+material_override = ExtResource("1_feb5d")
+mesh = ExtResource("1_80nbo")
+
+[node name="floor17" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=653636451]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -13)
+material_override = ExtResource("1_feb5d")
+mesh = ExtResource("1_80nbo")
+
+[node name="floor18" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=1967442104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -15)
+material_override = ExtResource("1_feb5d")
+mesh = ExtResource("1_80nbo")
+
+[node name="floor19" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/floor" unique_id=482317776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -17)
 material_override = ExtResource("1_feb5d")
 mesh = ExtResource("1_80nbo")
 
@@ -279,11 +296,6 @@ transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
-[node name="wall45" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=722296095]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1.0002012, 1.0038999, -12.001153)
-material_override = ExtResource("3_fc0e3")
-mesh = ExtResource("7_mfdv2")
-
 [node name="wall46" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1563493065]
 transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0, 3, -12)
 material_override = ExtResource("3_fc0e3")
@@ -316,6 +328,66 @@ mesh = ExtResource("1_80nbo")
 
 [node name="wall42" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=689791811]
 transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 1, -11)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall45" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=659852455]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 1, -13)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall52" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=428245452]
+transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 1, -13)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall53" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1313978223]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 1, -15)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall54" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1834547336]
+transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 1, -15)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall55" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=218744561]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 1, -17)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall60" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1222933423]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 3, -13)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall61" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1653128870]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 3, -15)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall62" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1736619708]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, -1, 3, -17)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall56" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1572211819]
+transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 1, -17)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall57" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=2030704720]
+transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 3, -13)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall58" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=502809891]
+transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 3, -15)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="wall59" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/walls" unique_id=1865701465]
+transform = Transform3D(4.371139e-08, -1, 8.742278e-08, -1, -4.371139e-08, 0, 3.821371e-15, -8.742278e-08, -1, 1, 3, -17)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
@@ -398,6 +470,21 @@ mesh = ExtResource("1_80nbo")
 
 [node name="ceiling31" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=810302511]
 transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -9)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling43" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=1620365891]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -13)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling44" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=944007771]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -15)
+material_override = ExtResource("3_fc0e3")
+mesh = ExtResource("1_80nbo")
+
+[node name="ceiling45" type="MeshInstance3D" parent="SubViewportContainer/World/game_world/Node3D/ceiling" unique_id=579275190]
+transform = Transform3D(-1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, 3, -17)
 material_override = ExtResource("3_fc0e3")
 mesh = ExtResource("1_80nbo")
 
@@ -570,7 +657,11 @@ mesh = ExtResource("9_mfdv2")
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/World/game_world" unique_id=1792234815]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
-script = ExtResource("7_eow3j")
-shake_intensity = 0.004
-rotation_intensity = 0.002
-shake_speed = 0.025
+
+[node name="window" parent="." unique_id=2121957388 instance=ExtResource("11_mfdv2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+
+[node name="Plane" parent="window" index="0" unique_id=1901521502]
+material_override = ExtResource("3_fc0e3")
+
+[editable path="window"]

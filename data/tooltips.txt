@@ -3,4 +3,10 @@ Melee kills yield more points than bullets.
 It's faster to switch weapons, than to reload.
 
 # Zombies
-The horde gets faster every few rounds.
+Zombies will chase whoever is closest to them.
+
+#Dealer
+Talk to the dealer for a chance to get a better weapon.
+
+#Troubleshooting
+Having trouble staying alive? Grab some darts.

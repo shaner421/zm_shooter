@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://byx5rk4bgp4f" path="res://ui/press_start/press_start.tscn" id="2_cp2tp"]
 [ext_resource type="Script" uid="uid://b7nu14pi3dsw8" path="res://ui/screens/resources/screen_registry_entry.gd" id="2_csi1p"]
 [ext_resource type="PackedScene" uid="uid://bwqworwugpknk" path="res://ui/main_menu/main_menu.tscn" id="4_u76ei"]
+[ext_resource type="PackedScene" uid="uid://mkvsmqo8b708" path="res://ui/screens/online_screen/online_screen.tscn" id="5_u76ei"]
+[ext_resource type="PackedScene" uid="uid://7es7wlisvjo" path="res://ui/screens/lobby_screen/lobby_screen.tscn" id="6_5fk21"]
 
 [sub_resource type="Resource" id="Resource_4cdf6"]
 script = ExtResource("2_csi1p")
@@ -17,11 +19,24 @@ screen_name = &"main_menu"
 scene = ExtResource("4_u76ei")
 metadata/_custom_type_script = "uid://b7nu14pi3dsw8"
 
-[node name="MenuManager" type="CanvasLayer" unique_id=2066713399 node_paths=PackedStringArray("screen_container")]
+[sub_resource type="Resource" id="Resource_i8muf"]
+script = ExtResource("2_csi1p")
+screen_name = &"online_screen"
+scene = ExtResource("5_u76ei")
+metadata/_custom_type_script = "uid://b7nu14pi3dsw8"
+
+[sub_resource type="Resource" id="Resource_i5wg5"]
+script = ExtResource("2_csi1p")
+screen_name = &"lobby_screen"
+scene = ExtResource("6_5fk21")
+metadata/_custom_type_script = "uid://b7nu14pi3dsw8"
+
+[node name="MenuManager" type="CanvasLayer" unique_id=2066713399 node_paths=PackedStringArray("screen_container", "overlay_container")]
 script = ExtResource("1_4cdf6")
-screen_entries = Array[ExtResource("2_csi1p")]([SubResource("Resource_4cdf6"), SubResource("Resource_cp2tp")])
+screen_entries = Array[ExtResource("2_csi1p")]([SubResource("Resource_4cdf6"), SubResource("Resource_cp2tp"), SubResource("Resource_i8muf"), SubResource("Resource_i5wg5")])
 screen_container = NodePath("screen_container")
 initial_screen = &"press_start"
+overlay_container = NodePath("overlay")
 
 [node name="screen_container" type="PanelContainer" parent="." unique_id=157316976]
 anchors_preset = 15

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ck1g4oiajqi6k"]
+
+[ext_resource type="Script" uid="uid://c5i2rofj0f8fh" path="res://components/fps_counter/fps_counter.gd" id="1_mr32i"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dde55"]
+font_color = Color(1, 1, 0.3019608, 1)
+
+[node name="FpsCounter" type="CanvasLayer" unique_id=981622148]
+script = ExtResource("1_mr32i")
+
+[node name="FpsLabel" type="Label" parent="." unique_id=1020352493]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 118.0
+offset_bottom = 33.0
+text = "fps"
+label_settings = SubResource("LabelSettings_dde55")

@@ -19,6 +19,11 @@ signal steam_initialized(success: bool, message: String)
 ## and been converted to a usable ImageTexture.
 signal avatar_ready(texture: ImageTexture)
 
+## Emitted after a getNumberOfCurrentPlayers() request resolves. success is
+## false if Steam could not fulfill the request, in which case player_count
+## should not be used.
+signal player_count_received(success: bool, player_count: int)
+
 
 ## True once steamInitEx() has reported success. Callbacks are only pumped
 ## in _process() while this is true.
@@ -39,6 +44,7 @@ var init_failure_message: String = ""
 
 func _ready() -> void:
 	Steam.avatar_loaded.connect(_on_avatar_loaded)
+	Steam.number_of_current_players.connect(_on_number_of_current_players)
 	_initialize_steam()
 
 
@@ -71,6 +77,18 @@ func _initialize_steam() -> void:
 	# avatar_loaded signal, not as a return value from this call.
 	Steam.getPlayerAvatar(2, local_steam_id)
 
+## Asks Steam for the current number of players across the whole game, both
+## online and offline. Result arrives async via player_count_received, not as
+## a return value from this call.
+func request_player_count() -> void:
+	if not is_steam_initialized:
+		player_count_received.emit(false, 0)
+		return
+
+	Steam.getNumberOfCurrentPlayers()
+
+func _on_number_of_current_players(success: int, players: int) -> void:
+	player_count_received.emit(success == 1, players)
 
 ## Fires whenever an avatar finishes downloading, for any Steam ID that has
 ## been requested, not only the local player. Ignores avatars for anyone
